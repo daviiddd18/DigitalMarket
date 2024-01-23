@@ -1,5 +1,5 @@
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { Button, buttonVariants } from "@/components/ui/button";
+import MaxWidthWrapper from "../components/MaxWidthWrapper";
+import { Button, buttonVariants } from "../components/ui/button";
 import { ArrowDownToLine, CheckCircle, LeafyGreen } from "lucide-react";
 import Link from "next/link";
 
