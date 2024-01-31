@@ -66,14 +66,15 @@ const NavItem = ({
                     <div
                       onClick={() => close}
                       key={item.name}
-                      className='group relative text-base sm:text-sm'>
-                      <div className='relative aspect-video overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75'>
-                        <Image
-                          src={item.imageSrc}
-                          alt='product category image'
-                          fill
-                          className='object-cover object-center'
-                        />
+                      className='group relative text-base sm:text-sm w-full'> 
+                      <div className='relative aspect-video overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75'> 
+                      <Image
+                        src={item.imageSrc}
+                        alt={item.name}
+                        layout='fill'
+                        objectFit='cover' 
+                        className='object-center' 
+                      />
                       </div>
 
                       <Link
@@ -81,11 +82,9 @@ const NavItem = ({
                         className='mt-6 block font-medium text-gray-900'>
                         {item.name}
                       </Link>
-                      <p
-                        className='mt-1'
-                        aria-hidden='true'>
-                        Shop now
-                      </p>
+                      <p className='mt-1'>
+                            <a href={item.href} className='text-orange-500'>Comprar ahora</a>
+                        </p>
                     </div>
                   ))}
                 </div>

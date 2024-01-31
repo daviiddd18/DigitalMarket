@@ -1,43 +1,43 @@
 export const PRODUCT_CATEGORIES = [
     {
-        label: "UI Kits",
-        value: "ui_kits" as const,
+        label: "Novedades",
+        value: "novedades" as const,
         featured: [
             {
-                name: "Editor picks",
+                name: "Monitor Full HD",
                 href: '#',
-                imageSrc: '/nav/ui-kits/mixed.jpg'
+                imageSrc: '/nav/Novedades/monitor.png'
             },
             {
-                name: "New Arrivals",
+                name: "Ratón",
                 href: '#',
-                imageSrc: '/nav/ui-kits/purple.jpg'
+                imageSrc: '/nav/Novedades/raton.png'
             },
             {
-                name: "Bestsellers",
+                name: "Teléfono",
                 href: '#',
-                imageSrc: '/nav/ui-kits/blue.jpg'
-            }
+                imageSrc: '/nav/Novedades/telefono-inteligente.png'
+            },
         ]
     },
     {
-        label: "Icons",
-        value: "icons" as const,
+        label: "Ofertas",
+        value: "ofertas" as const,
         featured: [
             {
-                name: "Favorite Icon Picks",
+                name: "Auriculares",
                 href: '#',
-                imageSrc: '/nav/icons/picks.jpg'
+                imageSrc: '/nav/Ofertas/auricular.png'
             },
             {
-                name: "New Arrivals",
+                name: "Web Cam",
                 href: '#',
-                imageSrc: '/nav/icons/new.jpg'
+                imageSrc: '/nav/Ofertas/camara-web.png'
             },
             {
-                name: "Bestsellers",
+                name: "Micrófono",
                 href: '#',
-                imageSrc: '/nav/icons/bestsellers.jpg'
+                imageSrc: '/nav/Ofertas/microfono.png'
             }
         ]
     }
