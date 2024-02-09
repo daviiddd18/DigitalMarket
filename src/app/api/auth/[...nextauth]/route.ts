@@ -17,36 +17,30 @@ const authOptions = {
           console.log(user);
           try {
             
-            const existingUser = await SessionModel.findOne({ email: user.email });
-            if (!existingUser) {
-              
-              await SessionModel.create({
-                name: user.name, 
-                email: user.email, 
-                image: user.image, 
-                date: new Date(),
-              });
-            } else {
-              
-              await SessionModel.findOneAndUpdate(
-                { email: user.email },
-                {
-                  name: user.name, 
-                  email: user.email, 
-                  image: user.image, 
+            await SessionModel.findOneAndUpdate(
+              { email: user.email }, 
+              {
+                $set: { 
+                  name: user.name,
+                  email: user.email,
+                  image: user.image,
                   date: new Date(),
-                },
-                { new: true }
-              );
-            }
+                }
+              },
+              {
+                new: true,
+                upsert: true 
+              }
+            );
           } catch (error) {
             console.error("Error al crear o actualizar el usuario:", error);
-        
+            
+            return false;
           }
           return true;
         },
       },
-      
+          
 }
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST }
