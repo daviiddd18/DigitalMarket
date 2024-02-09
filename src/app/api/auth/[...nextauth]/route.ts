@@ -14,16 +14,13 @@ const authOptions = {
     callbacks: {
         async signIn({ user }: { user: User }) {
           await connectToDatabase();
-          console.log(user);
           try {
             
             await SessionModel.findOneAndUpdate(
               { email: user.email }, 
               {
                 $set: { 
-                  name: user.name,
                   email: user.email,
-                  image: user.image,
                   date: new Date(),
                 }
               },
