@@ -16,7 +16,19 @@ const authOptions = {
           await connectToDatabase();
           try {
             
-            
+            await SessionModel.findOneAndUpdate(
+              { email: user.email }, 
+              {
+                $set: { 
+                  email: user.email,
+                  date: new Date(),
+                }
+              },
+              {
+                new: true,
+                upsert: true 
+              }
+            );
           } catch (error) {
             console.error("Error al crear o actualizar el usuario:", error);
             
