@@ -11,32 +11,7 @@ const authOptions = {
         })
     ],
     secret: process.env.NEXTAUTH_SECRET,
-    callbacks: {
-        async signIn({ user }: { user: User }) {
-          //await connectToDatabase();
-          try {
-            
-            await SessionModel.findOneAndUpdate(
-              { email: user.email }, 
-              {
-                $set: { 
-                  email: user.email,
-                  date: new Date(),
-                }
-              },
-              {
-                new: true,
-                upsert: true 
-              }
-            );
-          } catch (error) {
-            console.error("Error al crear o actualizar el usuario:", error);
-            
-            return false;
-          }
-          return true;
-        },
-      },
+    
           
 }
 const handler = NextAuth(authOptions);
