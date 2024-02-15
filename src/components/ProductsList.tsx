@@ -15,7 +15,7 @@ interface Product {
 }
 
 export default function ProductList() {
-    const baseURL = process.env.NODE_ENV === 'production' ? 'https://your-production-domain.com' : 'http://localhost:3000';
+    const baseURL = process.env.NODE_ENV === 'production' ? 'https://digital-market-nine.vercel.app/' : 'http://localhost:3000';
     const [products, setProducts] = useState<Product[]>([]);
     const { data: session } = useSession();
     const isAuthorized = session?.user?.email === "davidespinossanz@gmail.com";
