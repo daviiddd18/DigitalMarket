@@ -1,4 +1,6 @@
-export default function Productos(){
+import ProductList from "@/components/ProductsList"
 
-    return <h1>Hola desde Productos</h1>
+export default function Productos() {
+   
+    return <ProductList />
 }
