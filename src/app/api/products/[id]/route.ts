@@ -1,21 +1,24 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/app/db/ConnectToDatabase"; 
-import { Product } from "@/app/db/models/ProductModel"; 
+import { Product } from "@/app/db/models/ProductModel";
 
-export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
-  console.log(req.query)
+export async function DELETE(req: NextRequest) {
   await connectToDatabase();
-  
-  const { id } = req.query; 
-  
+  const searchParams = new URL(req.url).searchParams;
+  const id = searchParams.get('id');
+
   try {
+    if (!id) {
+      throw new Error("ID no proporcionado");
+    }
     const deletedProduct = await Product.deleteOne({ _id: id });
     if (deletedProduct.deletedCount === 0) {
-      return res.status(404).json({ message: 'Producto no encontrado' });
+      
+      return new Response(JSON.stringify({ message: 'Producto no encontrado' }), { status: 404 });
     }
-    res.status(204).end(); 
+    return new Response(null, { status: 204 }); 
   } catch (error) {
-    res.status(500).json({ message: 'Error al borrar el producto' });
+    return new Response(JSON.stringify({ message: 'Error al borrar el producto' }), { status: 500 });
   }
 }
 
