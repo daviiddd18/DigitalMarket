@@ -14,20 +14,21 @@ interface Product {
     _id: string;
 }
 
-export default function ProductPage() {
+export default function ProductList() {
+    const baseURL = process.env.NODE_ENV === 'production' ? 'https://your-production-domain.com' : 'http://localhost:3000';
     const [products, setProducts] = useState<Product[]>([]);
     const { data: session } = useSession();
     const isAuthorized = session?.user?.email === "davidespinossanz@gmail.com";
 
     useEffect(() => {
         const fetchProducts = async () => {
-            const res = await fetch('http://localhost:3000/api/products');
+            const res = await fetch(`${baseURL}/api/products`);
             const data = await res.json();
             setProducts(data); 
         };
 
         fetchProducts();
-    }, []);
+    }, [baseURL]);
 
     const deleteProductById = async (productId: string) => {
         if (!confirm('¿Estás seguro de que quieres eliminar este producto?')) {
@@ -35,10 +36,10 @@ export default function ProductPage() {
         }
        
         try {
-          const response = await fetch(`http://localhost:3000/api/products/${productId}`, {
+          const response = await fetch(`${baseURL}/api/products/${productId}`, {
             method: 'DELETE',
           });
-          console.log(response)
+          
           if (response.ok) {
             alert('Producto eliminado correctamente.');
             setProducts(products.filter(product => product._id !== productId));

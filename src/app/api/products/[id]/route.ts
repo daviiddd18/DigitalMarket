@@ -1,59 +1,78 @@
-import { NextRequest, NextResponse } from "next/server";
-import { connectToDatabase } from "@/app/db/ConnectToDatabase"; 
-import { Product } from "@/app/db/models/ProductModel";
+import { NextRequest, NextResponse } from 'next/server';
+import { connectToDatabase } from '@/app/db/ConnectToDatabase';
+import { Product } from '@/app/db/models/ProductModel'
 
-export async function DELETE(req: NextRequest) {
-  await connectToDatabase();
-  const searchParams = new URL(req.url).searchParams;
-  const id = searchParams.get('id');
+export async function GET(req: NextRequest) {
+  await connectToDatabase(); 
+
+  const url = new URL(req.url);
+  const pathSegments = url.pathname.split('/').filter(Boolean);
+  const id = pathSegments[pathSegments.length - 1];
 
   try {
     if (!id) {
-      throw new Error("ID no proporcionado");
+      return new Response(JSON.stringify({ message: "ID no proporcionado" }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
-    const deletedProduct = await Product.deleteOne({ _id: id });
-    if (deletedProduct.deletedCount === 0) {
-      
-      return new Response(JSON.stringify({ message: 'Producto no encontrado' }), { status: 404 });
+
+    const product = await Product.findById(id);
+
+    if (!product) {
+      return new Response(JSON.stringify({ message: 'Producto no encontrado' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
     }
-    return new Response(null, { status: 204 }); 
+
+    return new Response(JSON.stringify(product), { status: 200, headers: { 'Content-Type': 'application/json' } });
   } catch (error) {
-    return new Response(JSON.stringify({ message: 'Error al borrar el producto' }), { status: 500 });
+    console.error("Error al obtener el producto:", error);
+    return new Response(JSON.stringify({ message: 'Error al obtener el producto' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 }
 
-{/*export async function GETBYID(req: NextApiRequest, res: NextApiResponse){
-  const { id } = req.query;
-
-  await connectToDatabase()
-  try {
-    const product = await Product.findById(id);
-    if (!product) {
-      return res.status(404).json({ message: 'Producto no encontrado' });
-    }
-    res.status(200).json(product);
-  } catch (error) {
-    res.status(500).json({ message: 'Error al obtener el producto' });
-  }
-};
-
-export async function UPDATE(req: NextApiRequest, res: NextApiResponse) {
-  const { id } = req.query; 
-
+export async function DELETE(req: NextRequest) {
   await connectToDatabase();
 
+  const url = new URL(req.url);
+  const pathSegments = url.pathname.split('/').filter(Boolean); 
+  const id = pathSegments[pathSegments.length - 1];
+
   try {
-    const product = await Product.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    if (!product) {
-      return res.status(404).json({ message: 'Producto no encontrado' });
+    
+    if (!id) {
+      return new Response(JSON.stringify({ message: "ID no proporcionado" }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
-    res.status(200).json(product);
+    const result = await Product.findByIdAndDelete(id);
+    if (!result) {
+      return new Response(JSON.stringify({ message: 'Producto no encontrado' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+    }
+    return new Response(null, { status: 204 });
   } catch (error) {
-    res.status(500).json({ message: 'Error al actualizar el producto' });
+    console.error("Error al eliminar el producto:", error);
+    return new Response(JSON.stringify({ message: 'Error al eliminar el producto' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
-}; */}
+}
 
+export async function UPDATE(req: NextRequest) {
+  await connectToDatabase(); 
 
+  const url = new URL(req.url);
+  const pathSegments = url.pathname.split('/').filter(Boolean);
+  const id = pathSegments[pathSegments.length - 1];
+
+  const updateData = await req.json();
+
+  try {
+    if (!id) {
+      return new Response(JSON.stringify({ message: "ID no proporcionado" }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+    }
+
+    const product = await Product.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
+
+    if (!product) {
+      return new Response(JSON.stringify({ message: 'Producto no encontrado' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+    }
+
+    return new Response(JSON.stringify(product), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  } catch (error) {
+    console.error("Error al actualizar el producto:", error);
+    return new Response(JSON.stringify({ message: 'Error al actualizar el producto' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+  }
+}
