@@ -50,7 +50,7 @@ export async function DELETE(req: NextRequest) {
   }
 }
 
-export async function UPDATE(req: NextRequest) {
+export async function PUT(req: NextRequest) {
   await connectToDatabase(); 
 
   const url = new URL(req.url);
