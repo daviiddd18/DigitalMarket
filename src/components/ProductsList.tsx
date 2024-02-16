@@ -14,7 +14,7 @@ interface Product {
     _id: string;
 }
 
-export default function ProductList() {
+export default function ProductsList() {
     const baseURL = process.env.NODE_ENV === 'production' ? 'https://digital-market-nine.vercel.app/' : 'http://localhost:3000';
     const [products, setProducts] = useState<Product[]>([]);
     const { data: session } = useSession();
@@ -61,7 +61,9 @@ export default function ProductList() {
                     <div key={index} className="p-4 w-1/3 flex justify-center"> 
                         <div className="border rounded-lg p-4 shadow-lg flex flex-col items-center">
                             <h3 className='font-bold'>{product.name}</h3>
-                            <Image src={product.imageSrc} alt={product.name} width={200} height={200} />
+                            <Link href={`/productos/listar/${product._id}`} passHref>
+                                <Image src={product.imageSrc} alt={product.name} width={200} height={200} layout="responsive" />
+                            </Link>
                             <p className='text-orange-500'>${product.price}</p>
                             <br></br>
                             <p className='italic'>{product.description}</p>
@@ -73,11 +75,11 @@ export default function ProductList() {
                             <>
                                 <div className="flex align-middle p-3">
                                     <div className="pr-2">
-                                        <button className={buttonVariants()} onClick={() => deleteProductById(product._id)}>Borrar
+                                        <button className=" bg-red-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded" onClick={() => deleteProductById(product._id)}>Borrar
                                         </button>
                                     </div>
-                                    <div className="pl-2">
-                                        <Link href={`/productos/editar/${product._id}`} className={buttonVariants()}>Editar 
+                                    <div className="pl-2 pt-2">
+                                        <Link href={`/productos/editar/${product._id}`} className=" bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded">Editar 
                                         </Link>
                                     </div>
                                 </div>   
@@ -90,5 +92,5 @@ export default function ProductList() {
                 <p>Cargando productos...</p>
             )}
         </div>
-    );
+    )
 }
