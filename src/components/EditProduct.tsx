@@ -54,7 +54,7 @@ export default function EditProduct () {
 
           if (response.ok) {
             alert('Producto actualizado correctamente.');
-            router.push('/productos'); 
+            redirect('/productos'); 
           } else {
             const errorText = await response.text();
             alert(`No se pudo actualizar el producto. Error: ${errorText}`);
@@ -82,8 +82,8 @@ export default function EditProduct () {
 
   return (
     <>
-    <div className="flex justify-center items-center mt-10 ">
-            <div className="p-6 rounded-lg shadow-lg max-w-md w-full">
+    <div className="flex justify-center items-center mt-10">
+            <div className="p-6 rounded-lg shadow-lg max-w-md w-full bg-slate-100 ">
                 <h1 className="font-bold text-2xl mb-4 text-center">Editar {product.name}</h1>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <input
@@ -128,5 +128,5 @@ export default function EditProduct () {
         </div>
     </>
   )
-  redirect('/productos')
+  
 }

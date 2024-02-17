@@ -82,9 +82,6 @@ const NavItem = ({
                         className='mt-6 block font-medium text-gray-900'>
                         {item.name}
                       </Link>
-                      <p className='mt-1'>
-                            <a href={item.href} className='text-orange-500'>Comprar ahora</a>
-                        </p>
                     </div>
                   ))}
                 </div>

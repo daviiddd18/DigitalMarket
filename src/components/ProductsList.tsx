@@ -68,7 +68,7 @@ export default function ProductsList() {
                             <br></br>
                             <p className='italic'>{product.description}</p>
                             {session && (
-                                <Link href="/productos" className={buttonVariants()}>Comprar</Link>
+                                <Link href="/" className={buttonVariants()}>Comprar</Link>
                             )}
                             
                             {isAuthorized && (
